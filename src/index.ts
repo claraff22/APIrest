@@ -6,8 +6,8 @@ const app = express();
 
 app.get("/", (req: Request, res:Response) => {
     res.json({
-        msg: 'ok'
-    })
+       msg: 'ok'
+   })
 })
 
 app.listen(PORT, () => console.log('Servidor funcionando na porta' + PORT));
