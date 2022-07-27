@@ -10,4 +10,4 @@ app.get("/", (req: Request, res:Response) => {
     })
 })
 
-app.listen(PORT, () => console.log('Serividor funcionando na porta' + PORT));
+app.listen(PORT, () => console.log('Servidor funcionando na porta' + PORT));
