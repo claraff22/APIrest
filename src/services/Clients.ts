@@ -1,4 +1,4 @@
-import {Request, Response} from 'express'
+import {json, Request, Response} from 'express'
 import db from '../database/db'
 
 class Clients {
@@ -7,10 +7,15 @@ class Clients {
         const {name, amount} = req.body
 
         try {
-            const response = await db.query('INSERT INTO clients SET ? ', [name, amount])
-            res.status(201).send(response)
+            db.getConnection((error: any, conn: any) => {
+                if(error) {
+                    throw new Error (error.message);
+                }
+                conn.query('INSERT INTO clients SET ? ', [name, amount])
+                res.status(201).send(json)
+            })
         } catch (error) {
-        console.log(error)
+            console.log(error)
         }
     }
     
