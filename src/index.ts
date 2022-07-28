@@ -4,6 +4,8 @@ const PORT = 3000;
 
 const app = express();
 
+app.use('/clients')
+
 app.get("/", (req: Request, res:Response) => {
     res.json({
        msg: 'ok'
