@@ -1,6 +1,7 @@
 import {Request, Response} from 'express'
 import db from '../services/db'
 class Clients {
+
     async insert(req: Request, res: Response) {
         const {name, amount} = req.body
 
