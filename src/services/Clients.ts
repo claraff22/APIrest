@@ -1,27 +1,25 @@
-import {json, Request, Response} from 'express'
-import db from '../database/db'
+import { Request, Response} from 'express'
+import { connect } from '../database/db';
+
 
 class Clients {
 
     async insert(req: Request, res: Response) {
         const {name, amount} = req.body
-
+        const conn = await connect()
         try {
-            db.getConnection((error: any, conn: any) => {
-                if(error) {
-                    throw new Error (error.message);
-                }
-                conn.query('INSERT INTO clients SET ? ', [name, amount])
-                res.status(201).send(json)
-            })
+            const response = await conn.query('INSERT INTO clients (name, amount) VALUES (?,?) ', [name, amount])
+            res.status(201).send(response)
+
         } catch (error) {
             console.log(error)
         }
     }
     
     async findAll(req: Request, res: Response) {
+        const conn = await connect()
         try {
-            const response = await db.query('SELECT * FROM clients');
+            const response =  await conn.query('SELECT * FROM clients');
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
@@ -30,8 +28,9 @@ class Clients {
 
     async findOne(req: Request, res: Response) {
         const {id} = req.params
+        const conn = await connect()
         try {
-            const response = await db.query('SELECT clients SET ? WHERE id = ?', [id]);
+            const response = await conn.query('SELECT * FROM clients WHERE id = ?', [id]);
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
@@ -41,9 +40,10 @@ class Clients {
     async update(req: Request, res: Response) {
         const {id} = req.params
         const {name, amount} = req.body
+        const conn = await connect()
 
         try {
-            const response = await db.query('UPDATE clients SET ? WHERE id = ?', [name, amount, id]);
+            const response = await conn.query('UPDATE clients SET (name, amount) VALUES (?,?) WHERE id = ?', [name, amount, id]);
             res.json(response);
         } catch (error) {
             console.log(error);
@@ -53,9 +53,10 @@ class Clients {
 
     async delete(req: Request, res: Response) {
         const {id} = req.params
+        const conn = await connect()
 
         try {
-            const response = await db.query(`DELETE FROM clients WHERE id = ${id}`);
+            const response = await conn.query('DELETE FROM clients WHERE id = ?', [id]);
             res.json(response);
         } catch (error) {
             console.log(error);

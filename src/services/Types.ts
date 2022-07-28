@@ -1,13 +1,14 @@
 import {Request, Response} from 'express'
-import db from '../database/db'
+import { connect } from '../database/db';
 
 class Types {
 
     async insert(req: Request, res: Response) {
         const {type, price} = req.body
+        const conn = await connect()
 
         try {
-            const response = await db.query('INSERT INTO types SET ? ', [type, price])
+            const response = await conn.query('INSERT INTO types (type, price) VALUES (?,?)  ', [type, price])
             res.status(201).send(response)
         } catch (error) {
         console.log(error)
@@ -15,8 +16,10 @@ class Types {
     }
     
     async findAll(req: Request, res: Response) {
+        const conn = await connect()
+
         try {
-            const response = await db.query('SELECT * FROM types');
+            const response = await conn.query('SELECT * FROM types');
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
@@ -25,8 +28,10 @@ class Types {
 
     async findOne(req: Request, res: Response) {
         const {id} = req.params
+        const conn = await connect()
+
         try {
-            const response = await db.query('SELECT types SET ? WHERE id = ?', [id]);
+            const response = await conn.query('SELECT * FROM types WHERE id = ?', [id]);
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
@@ -36,9 +41,10 @@ class Types {
     async update(req: Request, res: Response) {
         const {id} = req.params
         const {type, price} = req.body
+        const conn = await connect()
 
         try {
-            const response = await db.query('UPDATE types SET ? WHERE id = ?', [type, price, id]);
+            const response = await conn.query('UPDATE types SET ? WHERE id = ?', [type, price, id]);
             res.json(response);
         } catch (error) {
             console.log(error);
@@ -48,9 +54,10 @@ class Types {
 
     async delete(req: Request, res: Response) {
         const {id} = req.params
+        const conn = await connect()
 
         try {
-            const response = await db.query(`DELETE FROM types WHERE id = ${id}`);
+            const response = await conn.query('DELETE FROM types WHERE id = ?', [id]);
             res.json(response);
         } catch (error) {
             console.log(error);

@@ -1,13 +1,14 @@
 import {Request, Response} from 'express'
-import db from '../database/db'
+import { connect } from '../database/db';
 
 class Ingredients {
 
     async insert (req: Request, res: Response) {
-        const {basic, special, id_type} = req.body
+        const {basic, special, fk_id_type} = req.body
+        const conn = await connect()
 
         try {
-            const response = await db.query('INSERT INTO ingredients SET ? ', [basic, special, id_type])
+            const response = await conn.query('INSERT INTO ingredients (basic, special, fk_id_type) VALUES (?,?,?)  ', [basic, special, fk_id_type])
             res.status(201).send(response)
         } catch (error) {
         console.log(error)
@@ -15,8 +16,10 @@ class Ingredients {
     }
 
     async findAll (req: Request, res: Response) {
+        const conn = await connect()
+
         try {
-            const response = await db.query('SELECT * FROM ingredients');
+            const response = await conn.query('SELECT * FROM ingredients');
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
@@ -25,8 +28,10 @@ class Ingredients {
 
     async findOne (req: Request, res: Response) {
         const {id} = req.params
+        const conn = await connect()
+
         try {
-            const response = await db.query('SELECT ingredients SET ? WHERE id = ?', [id]);
+            const response = await conn.query('SELECT * FROM ingredients WHERE id = ?', [id]);
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
@@ -36,9 +41,10 @@ class Ingredients {
     async update (req: Request, res: Response) {
         const {id} = req.params
         const {basic, special, id_type} = req.body
+        const conn = await connect()
 
         try {
-            const response = await db.query('UPDATE ingredients SET ? WHERE id = ?', [basic, special, id_type, id]);
+            const response = await conn.query('UPDATE ingredients SET ? WHERE id = ?', [basic, special, id_type, id]);
             res.json(response);
         } catch (error) {
             console.log(error);
@@ -47,9 +53,10 @@ class Ingredients {
 
     async delete (req: Request, res: Response) {
         const {id} = req.params
+        const conn = await connect()
 
         try {
-            const response = await db.query(`DELETE FROM ingredients WHERE id = ${id}`);
+            const response = await conn.query('DELETE FROM ingredients WHERE id = ?', [id]);
             res.json(response);
         } catch (error) {
             console.log(error);

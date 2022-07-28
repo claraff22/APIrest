@@ -1,13 +1,14 @@
 import {Request, Response} from 'express'
-import db from '../database/db'
+import { connect } from '../database/db';
 
 class Address {
 
     async insert(req: Request, res: Response) {
         const {street, house, cep, id_client} = req.body
+        const conn = await connect()
 
         try {
-            const response = await db.query('INSERT INTO address SET ? ', [street, house, cep, id_client])
+            const response = await conn.query('INSERT INTO address (street, house, cep, id_client) VALUES (?,?,?,?)  ', [street, house, cep, id_client])
             res.status(201).send(response)
         } catch (error) {
         console.log(error)
@@ -15,8 +16,10 @@ class Address {
     }
     
     async findAll(req: Request, res: Response) {
+        const conn = await connect()
+
         try {
-            const response = await db.query('SELECT * FROM address');
+            const response = await conn.query('SELECT * FROM address');
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
@@ -25,8 +28,10 @@ class Address {
 
     async findOne(req: Request, res: Response) {
         const {id} = req.params
+        const conn = await connect()
+
         try {
-            const response = await db.query('SELECT address SET ? WHERE id = ?', [id]);
+            const response = await conn.query('SELECT * FROM  address WHERE id = ?', [id]);
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
@@ -36,9 +41,10 @@ class Address {
     async update(req: Request, res: Response) {
         const {id} = req.params
         const {street, house, cep, id_client} = req.body
+        const conn = await connect()
 
         try {
-            const response = await db.query('UPDATE address SET ? WHERE id = ?', [street, house, cep, id_client, id]);
+            const response = await conn.query('UPDATE address SET ? WHERE id = ?', [street, house, cep, id_client, id]);
             res.json(response);
         } catch (error) {
             console.log(error);
@@ -48,9 +54,10 @@ class Address {
 
     async delete(req: Request, res: Response) {
         const {id} = req.params
+        const conn = await connect()
 
         try {
-            const response = await db.query(`DELETE FROM address WHERE id = ${id}`);
+            const response = await conn.query('DELETE FROM address WHERE id = ?', [id]);
             res.json(response);
         } catch (error) {
             console.log(error);
