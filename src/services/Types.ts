@@ -44,7 +44,7 @@ class Types {
         const conn = await connect()
 
         try {
-            const response = await conn.query('UPDATE types SET ? WHERE id = ?', [type, price, id]);
+            const response = await conn.query('UPDATE types SET type = ?, price = ? WHERE id = ?', [type, price, id]);
             res.json(response);
         } catch (error) {
             console.log(error);

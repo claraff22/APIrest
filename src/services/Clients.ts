@@ -43,7 +43,7 @@ class Clients {
         const conn = await connect()
 
         try {
-            const response = await conn.query('UPDATE clients SET (name, amount) VALUES (?,?) WHERE id = ?', [name, amount, id]);
+            const response = await conn.query('UPDATE clients SET name = ?, amount = ? WHERE id = ?', [name, amount, id]);
             res.json(response);
         } catch (error) {
             console.log(error);
