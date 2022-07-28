@@ -1,12 +1,13 @@
 import {Request, Response} from 'express'
 import db from '../services/db'
-class Clients {
+
+class Address {
 
     async insert(req: Request, res: Response) {
-        const {name, amount} = req.body
+        const {street, house, cep} = req.body
 
         try {
-            const response = await db.query('INSERT INTO clients SET ? ', [name, amount])
+            const response = await db.query('INSERT INTO address SET ? ', [street, house, cep])
             res.status(201).send(response)
         } catch (error) {
         console.log(error)
@@ -15,7 +16,7 @@ class Clients {
     
     async findAll(req: Request, res: Response) {
         try {
-            const response = await db.query('SELECT * FROM clients');
+            const response = await db.query('SELECT * FROM address');
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
@@ -25,7 +26,7 @@ class Clients {
     async findOne(req: Request, res: Response) {
         const {id} = req.params
         try {
-            const response = await db.query('SELECT clients SET ? WHERE id = ?', [id]);
+            const response = await db.query('SELECT address SET ? WHERE id = ?', [id]);
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
@@ -34,10 +35,10 @@ class Clients {
 
     async update(req: Request, res: Response) {
         const {id} = req.params
-        const {name, amount} = req.body
+        const {street, house, cep} = req.body
 
         try {
-            const response = await db.query('UPDATE clients SET ? WHERE id = ?', [name, amount, id]);
+            const response = await db.query('UPDATE address SET ? WHERE id = ?', [street, house, cep, id]);
             res.json(response);
         } catch (error) {
             console.log(error);
@@ -49,7 +50,7 @@ class Clients {
         const {id} = req.params
 
         try {
-            const response = await db.query(`DELETE FROM clients WHERE id = ${id}`);
+            const response = await db.query(`DELETE FROM address WHERE id = ${id}`);
             res.json(response);
         } catch (error) {
             console.log(error);
@@ -57,4 +58,4 @@ class Clients {
     } 
 }
 
-export default Clients; 
+export default Address; 
