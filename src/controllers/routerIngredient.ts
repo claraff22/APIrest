@@ -1,5 +1,5 @@
 import express from "express";
-import Ingredients from '../controllers/Ingredients'
+import Ingredients from '../services/Ingredients'
 
 const routerIngredients = express.Router();
 

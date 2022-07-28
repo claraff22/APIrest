@@ -1,5 +1,5 @@
 import express from "express";
-import Types from '../controllers/Types'
+import Types from '../services/Types'
 
 const routerTypes = express.Router();
 

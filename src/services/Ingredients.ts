@@ -1,13 +1,13 @@
 import {Request, Response} from 'express'
-import db from '../services/db'
+import db from '../database/db'
 
 class Ingredients {
 
     async insert (req: Request, res: Response) {
-        const {basic, special} = req.body
+        const {basic, special, id_type} = req.body
 
         try {
-            const response = await db.query('INSERT INTO ingredients SET ? ', [basic, special])
+            const response = await db.query('INSERT INTO ingredients SET ? ', [basic, special, id_type])
             res.status(201).send(response)
         } catch (error) {
         console.log(error)
@@ -35,10 +35,10 @@ class Ingredients {
 
     async update (req: Request, res: Response) {
         const {id} = req.params
-        const {basic, special} = req.body
+        const {basic, special, id_type} = req.body
 
         try {
-            const response = await db.query('UPDATE ingredients SET ? WHERE id = ?', [basic, special, id]);
+            const response = await db.query('UPDATE ingredients SET ? WHERE id = ?', [basic, special, id_type, id]);
             res.json(response);
         } catch (error) {
             console.log(error);

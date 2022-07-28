@@ -1,5 +1,5 @@
 import express from "express";
-import Address from "../controllers/Address";
+import Address from '../services/Address';
 
 const routerAddress = express.Router();
 
