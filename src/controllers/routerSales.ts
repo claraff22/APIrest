@@ -5,10 +5,10 @@ const routerSales = express.Router();
 
 const sales = new Sales();
 
-routerSales.post('/sales/insert', sales.insert);
-routerSales.patch('/sales/update/:id', sales.update);
-routerSales.get('/sales', sales.findAll);
-routerSales.get('/sales/:id', sales.findOne);
-routerSales.delete('/sales/:id', sales.delete);
+routerSales.post('/insert', sales.insert);
+routerSales.patch('/update/:id', sales.update);
+routerSales.get('/', sales.findAll);
+routerSales.get('/:id', sales.findOne);
+routerSales.delete('/:id', sales.delete);
 
 export {routerSales};

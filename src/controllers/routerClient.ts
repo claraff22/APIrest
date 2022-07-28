@@ -5,10 +5,10 @@ const routerClient = express.Router();
 
 const clients = new Clients();
 
-routerClient.post('/clients/insert', clients.insert);
-routerClient.patch('/clients/update/:id', clients.update);
-routerClient.get('/clients', clients.findAll);
-routerClient.get('/clients/:id', clients.findOne);
-routerClient.delete('/clients/:id', clients.delete);
+routerClient.post('/insert', clients.insert);
+routerClient.patch('/update/:id', clients.update);
+routerClient.get('/', clients.findAll);
+routerClient.get('/:id', clients.findOne);
+routerClient.delete('/:id', clients.delete);
 
 export {routerClient};
