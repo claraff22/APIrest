@@ -44,7 +44,7 @@ class Address {
         const conn = await connect()
 
         try {
-            const response = await conn.query('UPDATE address SET ? WHERE id = ?', [street, house, cep, id_client, id]);
+            const response = await conn.query('UPDATE address SET street = ?, house = ?, cep = ?, id_client = ? WHERE id = ?', [street, house, cep, id_client, id]);
             res.json(response);
         } catch (error) {
             console.log(error);

@@ -44,7 +44,7 @@ class Sales {
         const conn = await connect()
 
         try {
-            const response = await conn.query('UPDATE sales SET ? WHERE id = ?', [id_customer, id_product, id]);
+            const response = await conn.query('UPDATE sales SET id_customer = ?, id_product = ? WHERE id = ?', [id_customer, id_product, id]);
             res.json(response);
         } catch (error) {
             console.log(error);

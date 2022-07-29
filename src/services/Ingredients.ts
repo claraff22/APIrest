@@ -4,11 +4,11 @@ import { connect } from '../database/db';
 class Ingredients {
 
     async insert (req: Request, res: Response) {
-        const {basic, special, fk_id_type} = req.body
+        const {basic, special, id_type} = req.body
         const conn = await connect()
 
         try {
-            const response = await conn.query('INSERT INTO ingredients (basic, special, fk_id_type) VALUES (?,?,?)  ', [basic, special, fk_id_type])
+            const response = await conn.query('INSERT INTO ingredients (basic, special, id_type) VALUES (?,?,?)   ', [basic, special, id_type])
             res.status(201).send(response)
         } catch (error) {
         console.log(error)
@@ -44,7 +44,7 @@ class Ingredients {
         const conn = await connect()
 
         try {
-            const response = await conn.query('UPDATE ingredients SET ? WHERE id = ?', [basic, special, id_type, id]);
+            const response = await conn.query('UPDATE ingredients SET basic = ?, special = ?, id_type = ? WHERE id = ?', [basic, special, id_type, id]);
             res.json(response);
         } catch (error) {
             console.log(error);
